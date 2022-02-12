@@ -22,7 +22,7 @@ def inv_q(q):
     
     q = tf.squeeze(q, axis = 1)
 
-    q_2 = tf.reduce_sum(q*q, axis = -1, keep_dims = True) + 1e-10
+    q_2 = tf.reduce_sum(q*q, axis = -1, keepdims = True) + 1e-10
     q_  = tf.concat([tf.slice(q, [0, 0], [-1, 1]), -tf.slice(q, [0, 1], [-1, 3])], axis = -1)
     q_inv = q_/q_2
 
@@ -118,7 +118,7 @@ def warping_layers( xyz1, upsampled_flow):
 def cost_volume(warped_xyz, warped_points, f2_xyz, f2_points, nsample, nsample_q, mlp1, mlp2, is_training, bn_decay, scope, bn=True, pooling='max', knn=True, corr_func='elementwise_product' ):
     
     
-    with tf.variable_scope(scope) as sc:   
+    with tf.compat.v1.variable_scope(scope) as sc:   
 
         ### FIRST AGGREGATE
 
@@ -131,7 +131,7 @@ def cost_volume(warped_xyz, warped_points, f2_xyz, f2_points, nsample, nsample_q
         
         pi_xyz_diff = qi_xyz_grouped - pi_xyz_expanded
         
-        pi_euc_diff = tf.sqrt(tf.reduce_sum(tf.square(pi_xyz_diff), axis=[-1] , keep_dims=True) + 1e-20 )
+        pi_euc_diff = tf.sqrt(tf.reduce_sum(tf.square(pi_xyz_diff), axis=[-1] , keepdims=True) + 1e-20 )
     
         pi_xyz_diff_concat = tf.concat([pi_xyz_expanded, qi_xyz_grouped, pi_xyz_diff, pi_euc_diff], axis=3)
         
@@ -158,10 +158,10 @@ def cost_volume(warped_xyz, warped_points, f2_xyz, f2_points, nsample, nsample_q
                                         padding='VALID', stride=[1,1],
                                         bn=True, is_training=is_training,
                                         scope='sum_CV_%d'%(j), bn_decay=bn_decay)
-        WQ = tf.nn.softmax(pi_concat,dim=2)
+        WQ = tf.nn.softmax(pi_concat,axis=2)
             
         pi_feat1_new = WQ * pi_feat1_new
-        pi_feat1_new = tf.reduce_sum(pi_feat1_new, axis=[2], keep_dims=False, name='avgpool_diff')#b, n, mlp1[-1]
+        pi_feat1_new = tf.reduce_sum(pi_feat1_new, axis=[2], keepdims=False, name='avgpool_diff')#b, n, mlp1[-1]
 
 
         ##### SECOND AGGREGATE
@@ -175,7 +175,7 @@ def cost_volume(warped_xyz, warped_points, f2_xyz, f2_points, nsample, nsample_q
         pc_points_new = tf.tile( tf.expand_dims (warped_points, axis = 2), [1,1,nsample,1] )
 
         pc_xyz_diff = pc_xyz_grouped - pc_xyz_new####b , n ,m ,3
-        pc_euc_diff = tf.sqrt(tf.reduce_sum(tf.square(pc_xyz_diff), axis=3, keep_dims=True) + 1e-20)
+        pc_euc_diff = tf.sqrt(tf.reduce_sum(tf.square(pc_xyz_diff), axis=3, keepdims=True) + 1e-20)
         pc_xyz_diff_concat = tf.concat([pc_xyz_new, pc_xyz_grouped, pc_xyz_diff, pc_euc_diff], axis=3)
 
         pc_xyz_encoding = tf_util.conv2d(pc_xyz_diff_concat, mlp1[-1], [1,1],
@@ -190,11 +190,11 @@ def cost_volume(warped_xyz, warped_points, f2_xyz, f2_points, nsample, nsample_q
                                         padding='VALID', stride=[1,1],
                                         bn=True, is_training=is_training,
                                         scope='sum_cost_volume_%d'%(j), bn_decay=bn_decay)
-        WP = tf.nn.softmax(pc_concat,dim=2)   #####  b, npoints, nsample, mlp[-1]
+        WP = tf.nn.softmax(pc_concat,axis=2)   #####  b, npoints, nsample, mlp[-1]
 
         pc_feat1_new = WP * pc_points_grouped
 
-        pc_feat1_new = tf.reduce_sum(pc_feat1_new, axis=[2], keep_dims=False, name='sumpool_diff')#b*n*mlp2[-1]
+        pc_feat1_new = tf.reduce_sum(pc_feat1_new, axis=[2], keepdims=False, name='sumpool_diff')#b*n*mlp2[-1]
 
     return pc_feat1_new
 
@@ -202,7 +202,7 @@ def cost_volume(warped_xyz, warped_points, f2_xyz, f2_points, nsample, nsample_q
 
 def flow_predictor( points_f1, upsampled_feat, cost_volume, mlp, is_training, bn_decay, scope, bn=True ):
 
-    with tf.variable_scope(scope) as sc:
+    with tf.compat.v1.variable_scope(scope) as sc:
 
         if points_f1 == None:
             points_concat = cost_volume
@@ -259,7 +259,7 @@ def sample_and_group(npoint, nsample, xyz, points, use_xyz=True):
 def pointnet_sa_module(xyz, points, npoint, nsample, mlp, mlp2, is_training, bn_decay, scope, bn=True, pooling='max', use_xyz=True, use_nchw=False):
 
     data_format = 'NCHW' if use_nchw else 'NHWC'
-    with tf.variable_scope(scope) as sc:
+    with tf.compat.v1.variable_scope(scope) as sc:
 
         # Sample and Grouping
         new_xyz, new_points = sample_and_group(npoint, nsample, xyz, points, use_xyz)
@@ -278,9 +278,9 @@ def pointnet_sa_module(xyz, points, npoint, nsample, mlp, mlp2, is_training, bn_
 
         # Pooling in Local Regions
         if pooling=='max':
-            new_points = tf.reduce_max(new_points, axis=[2], keep_dims=True, name='maxpool')
+            new_points = tf.reduce_max(new_points, axis=[2], keepdims=True, name='maxpool')
         elif pooling=='avg':
-            new_points = tf.reduce_mean(new_points, axis=[2], keep_dims=True, name='avgpool')
+            new_points = tf.reduce_mean(new_points, axis=[2], keepdims=True, name='avgpool')
 
 
         if mlp2 is not None:
@@ -300,7 +300,7 @@ def pointnet_sa_module(xyz, points, npoint, nsample, mlp, mlp2, is_training, bn_
 
 def set_upconv_module(xyz1, xyz2, feat1, feat2, nsample, mlp, mlp2, is_training, scope, bn_decay=None, bn=True, pooling='max', knn=True):
 
-    with tf.variable_scope(scope) as sc:
+    with tf.compat.v1.variable_scope(scope) as sc:
 
         _, idx_q = knn_point(nsample, xyz2, xyz1)
 
@@ -319,9 +319,9 @@ def set_upconv_module(xyz1, xyz2, feat1, feat2, nsample, mlp, mlp2, is_training,
                                  bn=True, is_training=is_training,
                                  scope='conv%d'%(i), bn_decay=bn_decay)
         if pooling=='max':
-            feat1_new = tf.reduce_max(net, axis=[2], keep_dims=False, name='maxpool') # batch_size, npoint1, mlp[-1]
+            feat1_new = tf.reduce_max(net, axis=[2], keepdims=False, name='maxpool') # batch_size, npoint1, mlp[-1]
         elif pooling=='avg':
-            feat1_new = tf.reduce_mean(net, axis=[2], keep_dims=False, name='avgpool') # batch_size, npoint1, mlp[-1]
+            feat1_new = tf.reduce_mean(net, axis=[2], keepdims=False, name='avgpool') # batch_size, npoint1, mlp[-1]
 
         if feat1 is not None:
             feat1_new = tf.concat([feat1_new, feat1], axis=2) # batch_size, npoint1, mlp[-1]+channel1

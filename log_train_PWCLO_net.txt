@@ -1,0 +1,88 @@
+/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:523: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:524: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:525: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:526: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:527: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:532: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+WARNING:tensorflow:From /home/dhz/BEVO/PWCLONet-main/utils/PWCLO_util.py:281: calling reduce_max (from tensorflow.python.ops.math_ops) with keepdims is deprecated and will be removed in a future version.
+Instructions for updating:
+keepdims is deprecated, use keepdims instead
+WARNING:tensorflow:From /home/dhz/BEVO/PWCLONet-main/utils/PWCLO_util.py:134: calling reduce_sum (from tensorflow.python.ops.math_ops) with keepdims is deprecated and will be removed in a future version.
+Instructions for updating:
+keepdims is deprecated, use keepdims instead
+WARNING:tensorflow:From /home/dhz/BEVO/PWCLONet-main/utils/PWCLO_util.py:161: calling softmax (from tensorflow.python.ops.nn_ops) with dim is deprecated and will be removed in a future version.
+Instructions for updating:
+dim is deprecated, use axis instead
+WARNING:tensorflow:From /home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/util/deprecation.py:553: calling conv1d (from tensorflow.python.ops.nn_ops) with data_format=NHWC is deprecated and will be removed in a future version.
+Instructions for updating:
+`NHWC` for data_format is deprecated, use `NWC` instead
+2022-02-11 22:39:04.285550: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 AVX512F FMA
+pid: 40577
+--- Get model and loss
+--- Get training operator
+Traceback (most recent call last):
+  File "/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1334, in _do_call
+    return fn(*args)
+  File "/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1317, in _run_fn
+    self._extend_graph()
+  File "/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1352, in _extend_graph
+    tf_session.ExtendSession(self._session)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: No OpKernel was registered to support Op 'FarthestPointSample' with these attrs.  Registered devices: [CPU,XLA_CPU], Registered kernels:
+  device='GPU'
+
+	 [[{{node sa1/layer0/FarthestPointSample}} = FarthestPointSample[npoint=2048, _device="/device:GPU:1"](strided_slice)]]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "main.py", line 474, in <module>
+    main(MODE)
+  File "main.py", line 175, in main
+    sess.run(init)
+  File "/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 929, in run
+    run_metadata_ptr)
+  File "/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1152, in _run
+    feed_dict_tensor, options, run_metadata)
+  File "/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1328, in _do_run
+    run_metadata)
+  File "/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1348, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: No OpKernel was registered to support Op 'FarthestPointSample' with these attrs.  Registered devices: [CPU,XLA_CPU], Registered kernels:
+  device='GPU'
+
+	 [[node sa1/layer0/FarthestPointSample (defined at <string>:103)  = FarthestPointSample[npoint=2048, _device="/device:GPU:1"](strided_slice)]]
+
+Caused by op 'sa1/layer0/FarthestPointSample', defined at:
+  File "main.py", line 474, in <module>
+    main(MODE)
+  File "main.py", line 136, in main
+    l0_q, l0_t, l1_q, l1_t, l2_q, l2_t, l3_q, l3_t = MODEL.get_model( pointclouds_pl, is_training_pl, bn_decay=bn_decay)
+  File "/home/dhz/BEVO/PWCLONet-main/PWCLO_Net.py", line 39, in get_model
+    l0_xyz_f1, l0_points_f1 = pointnet_sa_module(l0_xyz_f1 , l0_points_f1, npoint=2048, nsample=32, mlp=[8,8,16], mlp2=None, is_training=is_training, bn_decay=bn_decay, scope='layer0')
+  File "/home/dhz/BEVO/PWCLONet-main/utils/PWCLO_util.py", line 265, in pointnet_sa_module
+    new_xyz, new_points = sample_and_group(npoint, nsample, xyz, points, use_xyz)
+  File "/home/dhz/BEVO/PWCLONet-main/utils/PWCLO_util.py", line 231, in sample_and_group
+    sample_idx = farthest_point_sample(npoint, xyz)
+  File "/home/dhz/BEVO/PWCLONet-main/tf_ops/sampling/tf_sampling.py", line 56, in farthest_point_sample
+    return sampling_module.farthest_point_sample(inp, npoint)
+  File "<string>", line 103, in farthest_point_sample
+  File "/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py", line 787, in _apply_op_helper
+    op_def=op_def)
+  File "/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/util/deprecation.py", line 488, in new_func
+    return func(*args, **kwargs)
+  File "/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 3274, in create_op
+    op_def=op_def)
+  File "/home/dhz/miniconda3/envs/bevo2/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1770, in __init__
+    self._traceback = tf_stack.extract_stack()
+
+InvalidArgumentError (see above for traceback): No OpKernel was registered to support Op 'FarthestPointSample' with these attrs.  Registered devices: [CPU,XLA_CPU], Registered kernels:
+  device='GPU'
+
+	 [[node sa1/layer0/FarthestPointSample (defined at <string>:103)  = FarthestPointSample[npoint=2048, _device="/device:GPU:1"](strided_slice)]]
+

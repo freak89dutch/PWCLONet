@@ -10,7 +10,8 @@ import importlib
 import os
 import sys
 import kitti_dataset
-
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(BASE_DIR)
@@ -120,7 +121,7 @@ def main(mode = 'train'):
 
             pointclouds_pl, q_gt, t_gt = MODEL.placeholder_inputs(BATCH_SIZE, NUM_POINT)
 
-            is_training_pl = tf.placeholder(tf.bool, shape=())
+            is_training_pl = tf.compat.v1.placeholder(tf.bool, shape=())
 
             batch = tf.Variable(0)
             w_x = tf.Variable(0.0, trainable = True, name = 'w_x')

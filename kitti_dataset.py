@@ -51,8 +51,8 @@ class OdometryDataset():
 
         cur_lidar_dir = os.path.join(self.datapath, self.file_map[cur_seq])
 
-        pc1_bin = os.path.join(cur_lidar_dir, 'velodyne/' + str(cur_idx_pc1).zfill(6) + '.bin')
-        pc2_bin = os.path.join(cur_lidar_dir, 'velodyne/' + str(cur_idx_pc2).zfill(6) + '.bin')
+        pc1_bin = os.path.join(cur_lidar_dir, 'velodyne/' + str(cur_idx_pc1).zfill(10) + '.bin')
+        pc2_bin = os.path.join(cur_lidar_dir, 'velodyne/' + str(cur_idx_pc2).zfill(10) + '.bin')
 
         pose = np.load('ground_truth_pose/kitti_T_diff/' + self.file_map[cur_seq] + '_diff.npy')
 

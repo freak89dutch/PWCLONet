@@ -1,5 +1,10 @@
+**modified version for CUDA 11.0, CuDNN 8.0.5, Tensorflow 2.4.0**
+
+
+
 **PWCLO-Net: Deep LiDAR Odometry in 3D Point Clouds Using Hierarchical Embedding Mask Optimization (CVPR 2021)**
 ==============================================================================================================================
+
 This is the official implementation of PWCLO-Net (CVPR2021), an end-to-end deep network for LiDAR odometry created by Guangming Wang, Xinrui Wu, Zhe Liu and Hesheng Wang.
 ![](doc/network.png)
 
@@ -43,7 +48,8 @@ The TF operators are included under `tf_ops`, you need to compile them first by 
     make
     cd ..
 
-    
+
+​    
 
 #### Datasets
 
@@ -74,7 +80,7 @@ The training results and best model will be saved in `log_dir`.
 Please run 
 
     sh command.sh 
-    
+
 
 Train the network by running `sh command.sh` please reminder to specify the `mode`(test), `GPU`,`model`(path to PWCLONet model), `data_root`,`checkpoint_path`(path to pre-trained model for testing), `log_dir`, `test_list`(sequences for testing).
 
