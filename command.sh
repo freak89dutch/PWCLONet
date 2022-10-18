@@ -1,6 +1,6 @@
-python main.py \
+python3 main.py \
     --mode train \
-    --gpu 1 \
+    --gpu 0 \
     --model PWCLO_Net \
     --data_root ./data_odometry_calib/dataset/sequences \
     --log_dir pwclo_net_log_ \

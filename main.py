@@ -415,8 +415,7 @@ def eval_one_epoch(sess, ops, test_list = range(11)):
         np.savetxt(fname_txt, T, fmt='%.08f')
         os.system('cp %s %s' % (fname_txt, result_dir)) ###  SAVE THE txt FILE
 
-        result_f = os.popen("python ./evaluation.py --result_dir " + result_dir + " --eva_seqs " + str(ii).zfill(2) + "_pred", "r")
-
+        result_f = os.popen("python3 ./evaluation.py --result_dir " + result_dir + " --eva_seqs " + str(ii).zfill(2) + "_pred", "r")
         for line in result_f.readlines():
             
             log_string(line)
