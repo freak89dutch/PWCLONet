@@ -1,0 +1,4 @@
+tensorflow==2.7.0 
+tensorboard==2.7.0 
+protobuf==3.20 
+matplotlib==3.3

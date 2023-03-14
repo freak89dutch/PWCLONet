@@ -622,7 +622,7 @@ class kittiOdomEval():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='KITTI Evaluation toolkit')
-    parser.add_argument('--gt_dir',     type=str, default='./ground_truth_pose',  help='Directory path of the ground truth odometry')
+    parser.add_argument('--gt_dir',     type=str, default='/dataset/poses',  help='Directory path of the ground truth odometry')
     parser.add_argument('--result_dir', type=str, default='./data/',              help='Directory path of storing the odometry results')
     parser.add_argument('--eva_seqs',   type=str, default='09_pred,10_pred,11_pred',      help='The sequences to be evaluated') 
     parser.add_argument('--toCameraCoord',   type=lambda x: (str(x).lower() == 'true'), default=False, help='Whether to convert the pose to camera coordinate')

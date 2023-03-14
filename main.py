@@ -193,7 +193,7 @@ def main(mode = 'train'):
 
         if mode == 'train':
 
-            for epoch in range(200, MAX_EPOCH):
+            for epoch in range(0, MAX_EPOCH):
 
                 log_string('**** EPOCH %03d ****' % (epoch))
                 sys.stdout.flush()

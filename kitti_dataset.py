@@ -43,7 +43,7 @@ class OdometryDataset():
                     cur_idx_pc1 = cur_idx_pc2 - 1        ###############    1 frame gap  ###############   
                 break        
 
-        Tr_path = os.path.join( 'data_odometry_calib/dataset/sequences', str(cur_seq).zfill(2), 'calib.txt')
+        Tr_path = os.path.join( '/dataset/sequences', str(cur_seq).zfill(2), 'calib.txt')
         Tr_data = self.read_calib_file(Tr_path)
         Tr_data = Tr_data['Tr']
         Tr = Tr_data.reshape(3,4)
@@ -54,7 +54,7 @@ class OdometryDataset():
         pc1_bin = os.path.join(cur_lidar_dir, 'velodyne/' + str(cur_idx_pc1).zfill(6) + '.bin')
         pc2_bin = os.path.join(cur_lidar_dir, 'velodyne/' + str(cur_idx_pc2).zfill(6) + '.bin')
 
-        pose = np.load('ground_truth_pose/kitti_T_diff/' + self.file_map[cur_seq] + '_diff.npy')
+        pose = np.load('/dataset/poses/kitti_T_diff/' + self.file_map[cur_seq] + '_diff.npy')
 
         point1 = np.fromfile(pc1_bin, dtype=np.float32).reshape(-1, 4)
         point2 = np.fromfile(pc2_bin, dtype=np.float32).reshape(-1, 4)

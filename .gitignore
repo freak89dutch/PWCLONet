@@ -1,1 +1,5 @@
 *.bin
+data_odometry_calib/*
+ground_truth_pose/*
+result/*
+__pycache__
